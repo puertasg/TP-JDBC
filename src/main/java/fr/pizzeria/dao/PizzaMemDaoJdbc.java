@@ -1,6 +1,5 @@
 package fr.pizzeria.dao;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +31,8 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("config_jdbc.properties");
+			InputStream input = Thread.currentThread().getContextClassLoader()
+					.getResourceAsStream("config_jdbc.properties");
 			prop.load(input);
 
 			this.connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"),

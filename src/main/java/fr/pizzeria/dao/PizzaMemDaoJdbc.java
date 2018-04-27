@@ -27,7 +27,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 	public PizzaMemDaoJdbc() {
 
 		Properties prop = new Properties();
-		
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
@@ -35,7 +35,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 					.getResourceAsStream("config_jdbc.properties");
 			prop.load(input);
 			input.close();
-			
+
 			this.connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"),
 					prop.getProperty("password"));
 			this.statement = connection.createStatement();
@@ -61,7 +61,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 				listePizza.add(new Pizza(code, libelle, prix));
 			}
 			results.close();
-			
+
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue");
 			e.printStackTrace();
@@ -80,7 +80,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			insertPizzaSt.setDouble(3, pizza.getPrix());
 
 			insertPizzaSt.executeUpdate();
-			
+
 			insertPizzaSt.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de l'insertion pizza");
@@ -100,7 +100,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			updatePizzaSt.setString(4, codePizza);
 
 			updatePizzaSt.executeUpdate();
-			
+
 			updatePizzaSt.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de l'update pizza");
@@ -115,7 +115,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			deletePizzaSt.setString(1, codePizza);
 
 			deletePizzaSt.executeUpdate();
-			
+
 			deletePizzaSt.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de la supression pizza");
@@ -143,7 +143,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 				pi = new Pizza(code, libelle, prix);
 			}
-			
+
 			results.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de la recherche pizza par code");
@@ -164,7 +164,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			ResultSet results = selectPizzaSt.executeQuery();
 
 			found = results.first();
-			
+
 			results.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de la recherche pizza");

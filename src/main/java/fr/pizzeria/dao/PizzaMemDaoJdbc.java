@@ -29,11 +29,10 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 	public PizzaMemDaoJdbc() {
 
 		Properties prop = new Properties();
-
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			InputStream input = new FileInputStream("config_jdbc.properties");
+			InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("config_jdbc.properties");
 			prop.load(input);
 
 			this.connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"),

@@ -14,8 +14,6 @@ public class PizzeriaAdminConsoleApp {
 		/* Initialisation du TDB de pizzas */
 		PizzaMemDaoJdbc dao = new PizzaMemDaoJdbc();
 		
-		
-		
 		/* Initialisation du scanner */
 		Scanner scanner = new Scanner(System.in);
 		int choix = 0;

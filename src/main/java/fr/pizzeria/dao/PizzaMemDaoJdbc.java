@@ -199,9 +199,8 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			e.printStackTrace();
 		}
 	}
-	
-	public void rollback()
-	{
+
+	public void rollback() {
 		try {
 			this.connection.rollback();
 		} catch (SQLException e) {

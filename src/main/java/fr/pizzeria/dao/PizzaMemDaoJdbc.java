@@ -1,43 +1,44 @@
 package fr.pizzeria.dao;
 
+import java.sql.Statement;
 import java.util.List;
 
 import fr.pizzeria.model.Pizza;
 
-public class PizzaMemDaoJdbc implements IPizzaDao{
+public class PizzaMemDaoJdbc implements IPizzaDaoJdbc{
 
 	@Override
-	public List<Pizza> findAllPizzas() {
+	public List<Pizza> findAllPizzas(Statement s) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveNewPizza(Pizza pizza) {
+	public void saveNewPizza(Pizza pizza, Statement s) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updatePizza(String codePizza, Pizza pizza) {
+	public void updatePizza(String codePizza, Pizza pizza, Statement s) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deletePizza(String codePizza) {
+	public void deletePizza(String codePizza, Statement s) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Pizza findPizzaByCode(String codePizza) {
+	public Pizza findPizzaByCode(String codePizza, Statement s) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean pizzaExists(String codePizza) {
+	public boolean pizzaExists(String codePizza, Statement s) {
 		// TODO Auto-generated method stub
 		return false;
 	}

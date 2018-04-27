@@ -1,5 +1,9 @@
 package fr.pizzeria.dao;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,16 +27,30 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 	private Statement statement;
 
 	public PizzaMemDaoJdbc() {
+
+		Properties prop = new Properties();
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/pizzadb", "root", "");
+
+			InputStream input = new FileInputStream("config_jdbc.properties");
+			prop.load(input);
+
+			this.connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"),
+					prop.getProperty("password"));
 			this.statement = connection.createStatement();
 		} catch (SQLException e) {
-			LOG.error("Une erreur SQL est survenue ");
+			LOG.error("Une erreur SQL est survenue");
 			e.printStackTrace();
 		} catch (ClassNotFoundException e1) {
 			LOG.error("Echec du chargement du driver");
 			e1.printStackTrace();
+		} catch (FileNotFoundException e) {
+			LOG.error("Fichier de configuration non trouvé");
+			e.printStackTrace();
+		} catch (IOException e) {
+			LOG.error("Echec du chargement du fichier de configuration");
+			e.printStackTrace();
 		}
 	}
 

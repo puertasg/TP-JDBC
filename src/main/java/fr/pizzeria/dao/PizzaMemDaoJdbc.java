@@ -38,18 +38,8 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			this.connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"),
 					prop.getProperty("password"));
 			this.statement = connection.createStatement();
-		} catch (SQLException e) {
-			LOG.error("Une erreur SQL est survenue");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e1) {
-			LOG.error("Echec du chargement du driver");
-			e1.printStackTrace();
-		} catch (FileNotFoundException e) {
-			LOG.error("Fichier de configuration non trouvé");
-			e.printStackTrace();
-		} catch (IOException e) {
-			LOG.error("Echec du chargement du fichier de configuration");
-			e.printStackTrace();
+		} catch (SQLException | ClassNotFoundException | IOException ex) {
+			ex.printStackTrace();
 		}
 	}
 

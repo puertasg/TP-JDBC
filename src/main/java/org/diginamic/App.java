@@ -17,15 +17,16 @@ public class App {
 			Statement statement = connection.createStatement();
 
 			String sqlCreate = "CREATE TABLE pizzas " 
-					+ "(id INTEGER not NULL, " 
+					+ "(id INTEGER NOT NULL AUTO_INCREMENT, " 
 					+ " CODE VARCHAR(3), "
 					+ " LIBELLE VARCHAR(255), " 
 					+ " PRIX DOUBLE, " 
 					+ " PRIMARY KEY ( id ))";
 
-			statement.executeQuery(sqlCreate);
+			statement.execute(sqlCreate);
 		} catch (SQLException e) {
 			System.out.println("Echec de l'éxécution de la requete SQL");
+			e.printStackTrace();
 		} catch (ClassNotFoundException e1) {
 			System.out.println("Echec du chargement du driver");
 			e1.printStackTrace();

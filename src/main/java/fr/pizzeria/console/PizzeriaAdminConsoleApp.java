@@ -7,17 +7,16 @@ import fr.pizzeria.services.MenuService;
 import fr.pizzeria.services.MenuServiceFactory;
 
 public class PizzeriaAdminConsoleApp {
-	
+
 	public static void main(String[] args) {
-		
-		
+
 		/* Initialisation du TDB de pizzas */
 		PizzaMemDaoJdbc dao = new PizzaMemDaoJdbc();
-		
+
 		/* Initialisation du scanner */
 		Scanner scanner = new Scanner(System.in);
 		int choix = 0;
-		
+
 		/* Structure de r�p�tition de la boucle principale */
 		do {
 			println("***** Pizzeria Administration *****");
@@ -27,22 +26,20 @@ public class PizzeriaAdminConsoleApp {
 			println("4. Supprimer une pizza ");
 			println("5. Initialiser la base de données ");
 			println("99. Sortir ");
-	
+
 			System.out.print("Veuillez choisir une option:");
 			choix = scanner.nextInt();
-			
+
 			MenuService service = MenuServiceFactory.getInstance(choix);
 			service.executeUC(scanner, dao);
-			
-		} while(choix!=99);
-		
+
+		} while (choix != 99);
+
 		scanner.close();
 		dao.close();
 	}
-	
-	
 
-	private static void println(String msg){
+	private static void println(String msg) {
 		System.out.println(msg);
 	}
 }

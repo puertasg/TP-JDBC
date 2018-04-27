@@ -9,16 +9,16 @@ public class ModifierPizzaService extends MenuService {
 
 	@Override
 	public void executeUC(Scanner scanner, IPizzaDao dao) {
-		System.out.println("Mettre à jour une pizza");
+		System.out.println("Mettre Ã  jour une pizza");
 		
 		
-		System.out.println("Code de la pizza à modifier:");
+		System.out.println("Code de la pizza Ã  modifier:");
 		String codePizza = scanner.next();
 		
 		System.out.println("Nouveau code :");
 		String nvCode = scanner.next();
 		
-		System.out.println("Nouveau libellé :");
+		System.out.println("Nouveau libellÃ© :");
 		String nvLibelle = scanner.next();
 		
 		System.out.println("Nouveau prix :");

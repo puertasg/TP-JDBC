@@ -14,7 +14,7 @@ public class AjouterPizzaService extends MenuService {
 		System.out.println("Code :");
 		String code = scanner.next();
 		
-		System.out.println("Libellé :");
+		System.out.println("LibellÃ© :");
 		String libelle = scanner.next();
 		
 		System.out.println("Prix :");

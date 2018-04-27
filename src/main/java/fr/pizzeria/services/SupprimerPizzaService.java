@@ -10,7 +10,7 @@ public class SupprimerPizzaService extends MenuService {
 	public void executeUC(Scanner scanner, IPizzaDao dao) {
 		System.out.println("Supprimer une pizza");
 		
-		System.out.println("Code de la pizza à supprimer:");
+		System.out.println("Code de la pizza Ã  supprimer:");
 		String codePizzaSupp = scanner.next();
 		
 		dao.deletePizza(codePizzaSupp);

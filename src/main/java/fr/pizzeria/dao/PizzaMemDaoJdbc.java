@@ -183,6 +183,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 	public void close() {
 		try {
+			this.statement.close();
 			this.connection.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur est survenue lors de la femreture de la connection");

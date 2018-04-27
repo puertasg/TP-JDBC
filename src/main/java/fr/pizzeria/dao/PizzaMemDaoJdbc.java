@@ -38,6 +38,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 			this.connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"),
 					prop.getProperty("password"));
+			this.connection.setAutoCommit(false);
 			this.statement = connection.createStatement();
 		} catch (SQLException | ClassNotFoundException | IOException ex) {
 			ex.printStackTrace();
@@ -51,6 +52,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 		try {
 			ResultSet results = this.statement.executeQuery("SELECT * FROM pizzas");
+			this.connection.commit();
 
 			while (results.next()) {
 
@@ -80,7 +82,8 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			insertPizzaSt.setDouble(3, pizza.getPrix());
 
 			insertPizzaSt.executeUpdate();
-
+			this.connection.commit();
+			
 			insertPizzaSt.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de l'insertion pizza");
@@ -100,6 +103,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			updatePizzaSt.setString(4, codePizza);
 
 			updatePizzaSt.executeUpdate();
+			this.connection.commit();
 
 			updatePizzaSt.close();
 		} catch (SQLException e) {
@@ -115,6 +119,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			deletePizzaSt.setString(1, codePizza);
 
 			deletePizzaSt.executeUpdate();
+			this.connection.commit();
 
 			deletePizzaSt.close();
 		} catch (SQLException e) {
@@ -133,6 +138,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			selectPizzaSt.setString(1, codePizza);
 
 			ResultSet results = selectPizzaSt.executeQuery();
+			this.connection.commit();
 
 			if (results.isBeforeFirst()) {
 				results.next();
@@ -162,6 +168,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			selectPizzaSt.setString(1, codePizza);
 
 			ResultSet results = selectPizzaSt.executeQuery();
+			this.connection.commit();
 
 			found = results.first();
 

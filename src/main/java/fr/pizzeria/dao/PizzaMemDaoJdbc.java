@@ -52,7 +52,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 				listePizza.add(new Pizza(code, libelle, prix));
 			}
 		} catch (SQLException e) {
-			LOG.error("Une erreur SQL est survenue ");
+			LOG.error("Une erreur SQL est survenue");
 			e.printStackTrace();
 		}
 
@@ -70,7 +70,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 			insertPizzaSt.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error("Une erreur SQL est survenue ");
+			LOG.error("Une erreur SQL est survenue lors de l'insertion pizza");
 			e.printStackTrace();
 		}
 	}
@@ -80,15 +80,15 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 		try {
 			PreparedStatement updatePizzaSt = this.connection
-					.prepareStatement("UPDATE pizzas SET CODE=? LIBELLE=? PRIX=? WHERE CODE=?");
-			updatePizzaSt.setString(1, codePizza);
+					.prepareStatement("UPDATE pizzas SET CODE=?, LIBELLE=?, PRIX=? WHERE CODE=?");
+			updatePizzaSt.setString(1, pizza.getCode());
 			updatePizzaSt.setString(2, pizza.getLibelle());
 			updatePizzaSt.setDouble(3, pizza.getPrix());
-			updatePizzaSt.setString(4, pizza.getCode());
+			updatePizzaSt.setString(4, codePizza);
 
 			updatePizzaSt.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error("Une erreur SQL est survenue ");
+			LOG.error("Une erreur SQL est survenue lors de l'update pizza");
 			e.printStackTrace();
 		}
 	}
@@ -101,7 +101,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 			deletePizzaSt.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error("Une erreur SQL est survenue ");
+			LOG.error("Une erreur SQL est survenue lors de la supression pizza");
 			e.printStackTrace();
 		}
 
@@ -117,7 +117,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 			ResultSet results = selectPizzaSt.executeQuery();
 
-			if (!results.isBeforeFirst()) {
+			if (results.isBeforeFirst()) {
 				results.next();
 
 				String code = results.getString("CODE");
@@ -127,7 +127,7 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 				pi = new Pizza(code, libelle, prix);
 			}
 		} catch (SQLException e) {
-			LOG.error("Une erreur SQL est survenue ");
+			LOG.error("Une erreur SQL est survenue lors de la recherche pizza par code");
 			e.printStackTrace();
 		}
 		return pi;
@@ -144,15 +144,22 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 			ResultSet results = selectPizzaSt.executeQuery();
 
-			if (!results.isBeforeFirst()) {
-				found = true;
-			}
+			found = results.first();
 		} catch (SQLException e) {
-			LOG.error("Une erreur SQL est survenue ");
+			LOG.error("Une erreur SQL est survenue lors de la recherche pizza");
 			e.printStackTrace();
 		}
 
 		return found;
+	}
+
+	public void close() {
+		try {
+			this.connection.close();
+		} catch (SQLException e) {
+			LOG.error("Une erreur est survenue lors de la femreture de la connection");
+			e.printStackTrace();
+		}
 	}
 
 }

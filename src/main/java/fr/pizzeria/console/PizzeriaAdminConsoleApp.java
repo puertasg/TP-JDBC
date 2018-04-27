@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.dao.PizzaMemDao;
+import fr.pizzeria.dao.PizzaMemDaoJdbc;
 import fr.pizzeria.services.MenuService;
 import fr.pizzeria.services.MenuServiceFactory;
 
@@ -13,7 +14,7 @@ public class PizzeriaAdminConsoleApp {
 		
 		
 		/* Initialisation du TDB de pizzas */
-		IPizzaDao dao = new PizzaMemDao();
+		PizzaMemDaoJdbc dao = new PizzaMemDaoJdbc();
 		
 		
 		
@@ -39,7 +40,7 @@ public class PizzeriaAdminConsoleApp {
 		} while(choix!=99);
 		
 		scanner.close();
-		
+		dao.close();
 	}
 	
 	

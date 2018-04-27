@@ -20,15 +20,10 @@ public class CreateProperties {
 			prop.setProperty("password", "");
 
 			prop.store(output, null);
-
+			
+			output.close();
 		} catch (IOException io) {
 			io.printStackTrace();
-		} finally {
-			try {
-				output.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 }

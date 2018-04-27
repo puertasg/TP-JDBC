@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.pizzeria.dao.IPizzaDao;
-import fr.pizzeria.dao.PizzaMemDaoJdbc;
 
 public class CommitService extends MenuService{
 	
@@ -14,12 +13,7 @@ public class CommitService extends MenuService{
 
 	@Override
 	public void executeUC(Scanner scanner, IPizzaDao dao) {
-		LOG.debug("Pas de commit");
-	}
-	
-	public void executeUC(Scanner scanner, PizzaMemDaoJdbc dao) {
-		LOG.debug("Commit executeUC");
+		LOG.debug("Commit");
 		dao.commit();
 	}
-
 }

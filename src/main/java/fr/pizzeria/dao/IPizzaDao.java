@@ -11,5 +11,6 @@ public interface IPizzaDao {
 	void deletePizza(String codePizza);
 	Pizza findPizzaByCode(String codePizza);
 	boolean pizzaExists(String codePizza);
+	void commit();
 }
 

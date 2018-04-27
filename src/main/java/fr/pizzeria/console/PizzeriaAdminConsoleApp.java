@@ -25,6 +25,7 @@ public class PizzeriaAdminConsoleApp {
 			println("3. Mettre à jour une pizza ");
 			println("4. Supprimer une pizza ");
 			println("5. Initialiser la base de données ");
+			println("6. Commit ");
 			println("99. Sortir ");
 
 			System.out.print("Veuillez choisir une option:");

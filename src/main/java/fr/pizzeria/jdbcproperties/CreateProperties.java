@@ -12,7 +12,7 @@ public class CreateProperties {
 		OutputStream output = null;
 
 		try {
-			
+
 			output = new FileOutputStream("config_jdbc.properties");
 
 			prop.setProperty("url", "jdbc:mysql://127.0.0.1/pizzadb");
@@ -20,10 +20,16 @@ public class CreateProperties {
 			prop.setProperty("password", "");
 
 			prop.store(output, null);
-			
-			output.close();
 		} catch (IOException io) {
 			io.printStackTrace();
+		} finally {
+			if (output != null) {
+				try {
+					output.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

@@ -18,6 +18,9 @@ public class MenuServiceFactory {
 		else if (choix==5){
 			return new InitialisationPizzaService();
 		}
+		else if (choix==6){
+			return new CommitService();
+		}
 		return null;
 	}
 }

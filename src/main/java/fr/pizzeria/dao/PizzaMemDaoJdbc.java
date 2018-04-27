@@ -49,10 +49,10 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 	public List<Pizza> findAllPizzas() {
 
 		List<Pizza> listePizza = new ArrayList<>();
+		ResultSet results = null;
 
 		try {
-			ResultSet results = this.statement.executeQuery("SELECT * FROM pizzas");
-			this.connection.commit();
+			results = this.statement.executeQuery("SELECT * FROM pizzas");
 
 			while (results.next()) {
 
@@ -62,11 +62,12 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 				listePizza.add(new Pizza(code, libelle, prix));
 			}
-			results.close();
 
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue");
 			e.printStackTrace();
+		} finally {
+			this.closeResults(results);
 		}
 
 		return listePizza;
@@ -74,28 +75,30 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 
 	@Override
 	public void saveNewPizza(Pizza pizza) {
+		PreparedStatement insertPizzaSt = null;
+
 		try {
-			PreparedStatement insertPizzaSt = this.connection
-					.prepareStatement("INSERT INTO pizzas(CODE,LIBELLE,PRIX) VALUES(?,?,?)");
+			insertPizzaSt = this.connection.prepareStatement("INSERT INTO pizzas(CODE,LIBELLE,PRIX) VALUES(?,?,?)");
 			insertPizzaSt.setString(1, pizza.getCode());
 			insertPizzaSt.setString(2, pizza.getLibelle());
 			insertPizzaSt.setDouble(3, pizza.getPrix());
 
 			insertPizzaSt.executeUpdate();
-			this.connection.commit();
-			
-			insertPizzaSt.close();
+
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de l'insertion pizza");
 			e.printStackTrace();
+		} finally {
+			this.closePreparedStatement(insertPizzaSt);
 		}
+
 	}
 
 	@Override
 	public void updatePizza(String codePizza, Pizza pizza) {
-
+		PreparedStatement updatePizzaSt = null;
 		try {
-			PreparedStatement updatePizzaSt = this.connection
+			updatePizzaSt = this.connection
 					.prepareStatement("UPDATE pizzas SET CODE=?, LIBELLE=?, PRIX=? WHERE CODE=?");
 			updatePizzaSt.setString(1, pizza.getCode());
 			updatePizzaSt.setString(2, pizza.getLibelle());
@@ -103,28 +106,32 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 			updatePizzaSt.setString(4, codePizza);
 
 			updatePizzaSt.executeUpdate();
-			this.connection.commit();
 
 			updatePizzaSt.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de l'update pizza");
 			e.printStackTrace();
+		} finally {
+			this.closePreparedStatement(updatePizzaSt);
 		}
 	}
 
 	@Override
 	public void deletePizza(String codePizza) {
+		PreparedStatement deletePizzaSt = null;
+
 		try {
-			PreparedStatement deletePizzaSt = this.connection.prepareStatement("DELETE FROM pizzas WHERE CODE=?");
+			deletePizzaSt = this.connection.prepareStatement("DELETE FROM pizzas WHERE CODE=?");
 			deletePizzaSt.setString(1, codePizza);
 
 			deletePizzaSt.executeUpdate();
-			this.connection.commit();
 
 			deletePizzaSt.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de la supression pizza");
 			e.printStackTrace();
+		} finally {
+			this.closePreparedStatement(deletePizzaSt);
 		}
 
 	}
@@ -133,12 +140,12 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 	public Pizza findPizzaByCode(String codePizza) {
 
 		Pizza pi = null;
+		ResultSet results = null;
 		try {
 			PreparedStatement selectPizzaSt = this.connection.prepareStatement("SELECT * FROM pizzas WHERE CODE=?");
 			selectPizzaSt.setString(1, codePizza);
 
-			ResultSet results = selectPizzaSt.executeQuery();
-			this.connection.commit();
+			results = selectPizzaSt.executeQuery();
 
 			if (results.isBeforeFirst()) {
 				results.next();
@@ -150,11 +157,13 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 				pi = new Pizza(code, libelle, prix);
 			}
 
-			results.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de la recherche pizza par code");
 			e.printStackTrace();
+		} finally {
+			this.closeResults(results);
 		}
+
 		return pi;
 	}
 
@@ -162,23 +171,32 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 	public boolean pizzaExists(String codePizza) {
 
 		boolean found = false;
+		ResultSet results = null;
 
 		try {
 			PreparedStatement selectPizzaSt = this.connection.prepareStatement("SELECT * FROM pizzas WHERE CODE=?");
 			selectPizzaSt.setString(1, codePizza);
 
-			ResultSet results = selectPizzaSt.executeQuery();
-			this.connection.commit();
+			results = selectPizzaSt.executeQuery();
 
 			found = results.first();
 
-			results.close();
 		} catch (SQLException e) {
 			LOG.error("Une erreur SQL est survenue lors de la recherche pizza");
 			e.printStackTrace();
+		} finally {
+			this.closeResults(results);
 		}
 
 		return found;
+	}
+
+	public void commit() {
+		try {
+			this.connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void close() {
@@ -188,6 +206,26 @@ public class PizzaMemDaoJdbc implements IPizzaDao {
 		} catch (SQLException e) {
 			LOG.error("Une erreur est survenue lors de la femreture de la connection");
 			e.printStackTrace();
+		}
+	}
+
+	public void closeResults(ResultSet r) {
+		if (r != null) {
+			try {
+				r.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void closePreparedStatement(Statement s) {
+		if (s != null) {
+			try {
+				s.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

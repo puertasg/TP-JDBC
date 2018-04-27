@@ -12,6 +12,9 @@ public class MenuServiceFactory {
 		else if (choix==3){
 			return new ModifierPizzaService();
 		}
+		else if (choix==4){
+			return new SupprimerPizzaService();
+		}
 		else if (choix==5){
 			return new InitialisationPizzaService();
 		}

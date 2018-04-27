@@ -10,7 +10,7 @@ public class ListerPizzasService extends MenuService {
 	@Override
 	public void executeUC(Scanner scanner, IPizzaDao dao) {
 		System.out.println("Lister les pizzas");
-		for (Pizza pizza: dao.findAllPizzas()){
+		for (Pizza pizza : dao.findAllPizzas()) {
 			System.out.println(pizza);
 		}
 
